@@ -4,6 +4,7 @@
 #include "Classroom.h"
 #include "Date.h"
 #include "Professor.h"
+#include "Manager.h"
 
 using namespace std;
 
@@ -11,6 +12,8 @@ int main()
 {
 	bool exit = false;
 	char input = '0';
+
+	Manager manager;
 
 	while (!exit)
 	{
@@ -28,7 +31,7 @@ int main()
 				cout << "Exiting...";
 				break;
 
-			case '1': AddProfessor();
+			case '1': manager.AddProfessor();
 
 			default: cout << "Input error, try again.\n\n";
 				break;
@@ -37,3 +40,4 @@ int main()
 
 	return 0;
 }
+
