@@ -2,6 +2,8 @@
 
 Manager::Manager()
 {
+	instructors.clear();
+	courses.clear();
 }
 
 Manager::~Manager()
@@ -11,40 +13,84 @@ Manager::~Manager()
 void Manager::AddProfessor()
 {
 	Professor temp;
-	string input;
+	char input = '0';
 	bool exit = false;
 
 	cout << "What is the professor's first name: ";
 	cin >> temp.firstName;
 	
-	cout << "\nWhat is the professor's last name: ";
+	cout << "What is the professor's last name: ";
 	cin >> temp.LastName;
 
-	cout << "\nWhat is the professor's ID number: ";
+	cout << "What is the professor's ID number: ";
 	cin >> temp.employeeID;
 
 	while (!exit)
 	{
-		// qualification coding here
+		cout << "Select how you would like to add qualifications: \n";
+		cout << "To exit, choose 0: \n";
+		cout << "Select by subject code, choose 1: \n";
+		cin >> input;
+		switch (input)
+		{
+			case '0': exit = true;
+				break;
+			case '1': QualBySubject(temp);
+				break;
+			default: cout << "Input error. Try again. \n";
+				break;
+		}
 	}
 }
 
 void Manager::AddCourse()
 {
 	Course temp;
+	Classroom room;
+	int input;
 
+	cin.get();
 	cout << "Enter course name: ";
-	cin << temp.courseName;
+	getline(cin, temp.courseName);
 
-	cout << "\nEnter course subject code: ";
-	cin << temp.courseSubjectCode;
+	cout << "Enter course subject code: ";
+	cin >> temp.courseSubjectCode;
 
-	cout << "\nEnter course number: ";
-	cin << temp.courseNumID;
+	cout << "Enter course number: ";
+	cin >> temp.courseNumID;
 
-	cout << "\nEnter number of credit hours: ";
-	cin << temp.credits;
+	cout << "Enter number of credit hours: ";
+	cin >> temp.credits;
 
-	cout << "\nSelect the type of classroom required: "
-	cin << temp.classroomTypeReq;
+	cout << "Select the type of classroom required: \n";
+	for (int i = 0; i < room.roomTypeList.size(); i++)
+	{
+		cout << "Choose " << i << " for " << room.RoomTypeToString(room.roomTypeList[i]) << endl;
+	}
+	cin >> input; 
+	
+	temp.classroomTypeReq = room.roomTypeList[input];
+	courses.push_back(temp);
+}
+
+void Manager::QualBySubject(Professor& temp)
+{
+	string input;
+	bool found = false;
+
+	cout << "Enter course subject code: ";
+	cin >> input;
+
+	for (int i = 0; i < courses.size(); i++)
+	{
+		if (courses[i].courseSubjectCode == input)
+		{
+			cout << "Found qualified courses. Qualification added.\n";
+			temp.qualifiedToTeachCourses.push_back(courses[i]);
+			found = true;
+		}
+	}
+
+	if(!found)
+		cout << "No qualified courses found. Qualification not added.\n";
 }

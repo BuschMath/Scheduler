@@ -20,6 +20,7 @@ int main()
 		cout << "Select what you would like to do: \n";
 		cout << "Enter 0 to exit: \n";
 		cout << "Enter 1 to add professor: \n";
+		cout << "Enter 2 to add course: \n";
 
 		cout << endl;
 
@@ -30,8 +31,12 @@ int main()
 			case '0': exit = true;
 				cout << "Exiting...";
 				break;
-
+				
 			case '1': manager.AddProfessor();
+				break;
+
+			case '2': manager.AddCourse();
+				break;
 
 			default: cout << "Input error, try again.\n\n";
 				break;

@@ -20,6 +20,8 @@ public:
 	void AddCourse();
 
 private:
+	void QualBySubject(Professor& temp);
+
 	vector<Professor> instructors;
 	vector<Course> courses;
 
