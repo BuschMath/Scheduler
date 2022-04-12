@@ -1,9 +1,10 @@
 #include "Manager.h"
+#include <fstream>
+
+using namespace std;
 
 Manager::Manager()
 {
-	instructors.clear();
-	courses.clear();
 }
 
 Manager::~Manager()
@@ -41,6 +42,7 @@ void Manager::AddProfessor()
 				break;
 		}
 	}
+	instructors.push_back(temp);
 }
 
 void Manager::AddCourse()
@@ -71,6 +73,38 @@ void Manager::AddCourse()
 	
 	temp.classroomTypeReq = room.roomTypeList[input];
 	courses.push_back(temp);
+}
+
+void Manager::Save()
+{
+	ofstream outfile;
+	outfile.open("instructors.dat");
+
+	for (int i = 0; i < instructors.size(); i++)
+	{
+		outfile << instructors[i].firstName << ",";
+		outfile << instructors[i].LastName << ",";
+		outfile << instructors[i].employeeID << ",";
+
+		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
+		{
+			outfile << instructors[i].qualifiedToTeachCourses[j].courseName << ",";
+		}
+		outfile << "\b\n";
+	}
+
+	outfile.close();
+
+	Classroom room;
+	outfile.open("courses.dat");
+	for (int i = 0; i < courses.size(); i++)
+	{
+		outfile << courses[i].courseName << ",";
+		outfile << courses[i].courseSubjectCode << ",";
+		outfile << courses[i].courseNumID << ",";
+		outfile << courses[i].credits << ",";
+		outfile << room.RoomTypeToString(courses[i].classroomTypeReq) << "\n";
+	}
 }
 
 void Manager::QualBySubject(Professor& temp)

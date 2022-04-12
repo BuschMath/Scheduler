@@ -21,6 +21,7 @@ int main()
 		cout << "Enter 0 to exit: \n";
 		cout << "Enter 1 to add professor: \n";
 		cout << "Enter 2 to add course: \n";
+		cout << "Enter 9 to save: \n";
 
 		cout << endl;
 
@@ -36,6 +37,9 @@ int main()
 				break;
 
 			case '2': manager.AddCourse();
+				break;
+
+			case '9': manager.Save();
 				break;
 
 			default: cout << "Input error, try again.\n\n";
