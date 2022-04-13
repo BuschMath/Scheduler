@@ -25,6 +25,7 @@ class Classroom
 {
 public:
 	string RoomTypeToString(RoomType input);
+	RoomType StringToRoomType(string input);
 
 	unsigned short int roomNumber;
 	unsigned short int maxRoomCapacity;

@@ -17,11 +17,13 @@ int main()
 
 	while (!exit)
 	{
-		cout << "Select what you would like to do: \n";
+		cout << "\nSelect what you would like to do: \n";
 		cout << "Enter 0 to exit: \n";
 		cout << "Enter 1 to add professor: \n";
 		cout << "Enter 2 to add course: \n";
-		cout << "Enter 9 to save: \n";
+		cout << "Enter 3 to display courses: \n";
+		cout << "Enter s to save: \n";
+		cout << "Enter l to load: \n";
 
 		cout << endl;
 
@@ -39,7 +41,13 @@ int main()
 			case '2': manager.AddCourse();
 				break;
 
-			case '9': manager.Save();
+			case '3': manager.DisplayCourses();
+				break;
+
+			case 's': manager.Save();
+				break;
+
+			case 'l': manager.Load();
 				break;
 
 			default: cout << "Input error, try again.\n\n";

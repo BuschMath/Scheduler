@@ -18,7 +18,9 @@ public:
 
 	void AddProfessor();
 	void AddCourse();
+	void DisplayCourses();
 	void Save();
+	void Load();
 
 private:
 	void QualBySubject(Professor& temp);

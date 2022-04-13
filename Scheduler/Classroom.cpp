@@ -16,3 +16,17 @@ string Classroom::RoomTypeToString(RoomType input)
 		break;
 	}
 }
+
+RoomType Classroom::StringToRoomType(string input)
+{
+	if (input == "normal")
+		return RoomType::normal;
+	if (input == "lab")
+		return RoomType::lab;
+	if (input == "computer")
+		return RoomType::computer;
+	if (input == "auditorium")
+		return RoomType::auditorium;
+
+	return RoomType::normal;
+}

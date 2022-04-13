@@ -75,6 +75,19 @@ void Manager::AddCourse()
 	courses.push_back(temp);
 }
 
+void Manager::DisplayCourses()
+{
+	Classroom room;
+	for (int i = 0; i < courses.size(); i++)
+	{
+		cout << courses[i].courseName << " ";
+		cout << courses[i].courseSubjectCode << "-";
+		cout << courses[i].courseNumID << " ";
+		cout << courses[i].credits << " ";
+		cout << room.RoomTypeToString(courses[i].classroomTypeReq) << endl;
+	}
+}
+
 void Manager::Save()
 {
 	ofstream outfile;
@@ -104,6 +117,35 @@ void Manager::Save()
 		outfile << courses[i].courseNumID << ",";
 		outfile << courses[i].credits << ",";
 		outfile << room.RoomTypeToString(courses[i].classroomTypeReq) << "\n";
+	}
+}
+
+void Manager::Load()
+{
+	ifstream infile;
+	infile.open("courses.dat");
+	string input;
+	Classroom room;
+	Course temp;
+
+	getline(infile, temp.courseName, ',');
+	while (infile)
+	{
+		getline(infile, temp.courseSubjectCode, ',');
+
+		getline(infile, input, ',');
+		temp.courseNumID = stoi(input);
+
+		getline(infile, input, ',');
+		temp.credits = stoi(input);
+
+		getline(infile, input, '\n');
+		temp.classroomTypeReq = room.StringToRoomType(input);
+
+		courses.push_back(temp);
+		temp = *new Course;
+
+		getline(infile, temp.courseName, ',');
 	}
 }
 
