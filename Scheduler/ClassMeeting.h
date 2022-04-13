@@ -12,7 +12,7 @@ struct Course
 {
 	string courseName;
 	string courseSubjectCode;
-	unsigned short int courseNumID;
+	string courseNumID;
 	unsigned short int credits;
 	RoomType classroomTypeReq;
 };

@@ -101,7 +101,8 @@ void Manager::Save()
 
 		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
 		{
-			outfile << instructors[i].qualifiedToTeachCourses[j].courseName << ",";
+			outfile << instructors[i].qualifiedToTeachCourses[j].courseSubjectCode << ",";
+			outfile << instructors[i].qualifiedToTeachCourses[j].courseNumID << ",";
 		}
 		outfile << "\b\n";
 	}
@@ -118,11 +119,32 @@ void Manager::Save()
 		outfile << courses[i].credits << ",";
 		outfile << room.RoomTypeToString(courses[i].classroomTypeReq) << "\n";
 	}
+
+	outfile.close();
 }
 
 void Manager::Load()
 {
 	ifstream infile;
+
+	infile.open("instructors.dat");
+
+/*	while (int i = 0; i < instructors.size(); i++)
+	{
+		outfile << instructors[i].firstName << ",";
+		outfile << instructors[i].LastName << ",";
+		outfile << instructors[i].employeeID << ",";
+
+		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
+		{
+			outfile << instructors[i].qualifiedToTeachCourses[j].courseSubjectCode << ",";
+			outfile << instructors[i].qualifiedToTeachCourses[j].courseNumID << ",";
+		}
+		outfile << "\b\n";
+	}*/
+
+	infile.close();
+
 	infile.open("courses.dat");
 	string input;
 	Classroom room;
@@ -133,8 +155,7 @@ void Manager::Load()
 	{
 		getline(infile, temp.courseSubjectCode, ',');
 
-		getline(infile, input, ',');
-		temp.courseNumID = stoi(input);
+		getline(infile, temp.courseNumID, ',');
 
 		getline(infile, input, ',');
 		temp.credits = stoi(input);

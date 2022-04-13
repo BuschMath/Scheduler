@@ -5,7 +5,6 @@ Professor::Professor()
 	firstName = "Void";
 	LastName = "Void";
 	employeeID = 00000;
-	qualifiedToTeachCourses.push_back(Course{});
 }
 
 Professor::Professor(string firstName_, string LastName_, unsigned short int employeeID_, vector<Course> qualifiedToTeachCourses_)
