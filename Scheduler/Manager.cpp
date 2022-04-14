@@ -127,24 +127,6 @@ void Manager::Load()
 {
 	ifstream infile;
 
-	infile.open("instructors.dat");
-
-/*	while (int i = 0; i < instructors.size(); i++)
-	{
-		outfile << instructors[i].firstName << ",";
-		outfile << instructors[i].LastName << ",";
-		outfile << instructors[i].employeeID << ",";
-
-		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
-		{
-			outfile << instructors[i].qualifiedToTeachCourses[j].courseSubjectCode << ",";
-			outfile << instructors[i].qualifiedToTeachCourses[j].courseNumID << ",";
-		}
-		outfile << "\b\n";
-	}*/
-
-	infile.close();
-
 	infile.open("courses.dat");
 	string input;
 	Classroom room;
@@ -168,6 +150,51 @@ void Manager::Load()
 
 		getline(infile, temp.courseName, ',');
 	}
+
+	infile.close();
+
+	Professor pTemp;
+	Course cTemp;
+	bool found = false;
+
+	infile.open("instructors.dat");
+
+	getline(infile, pTemp.firstName, ',');
+
+	while (infile)
+	{
+		getline(infile, pTemp.LastName, ',');
+		getline(infile, pTemp.employeeID, ',');
+
+		while (infile.peek() != '\n')
+		{
+			getline(infile, cTemp.courseSubjectCode, ',');
+			getline(infile, cTemp.courseNumID, ',');
+
+			for (int i = 0; i < courses.size(); i++)
+			{
+				if (courses[i].courseSubjectCode == cTemp.courseSubjectCode && courses[i].courseNumID == cTemp.courseNumID)
+				{
+					cTemp.classroomTypeReq = courses[i].classroomTypeReq;
+					cTemp.courseName = courses[i].courseName;
+					cTemp.credits = courses[i].credits;
+
+					pTemp.qualifiedToTeachCourses.push_back(cTemp);
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				cout << "Course: " << cTemp.courseSubjectCode << "-" << cTemp.courseNumID << " Not found!\n";
+			else
+				found = false;
+		}
+		
+		instructors.push_back(pTemp);
+	}
+
+	infile.close();
 }
 
 void Manager::QualBySubject(Professor& temp)

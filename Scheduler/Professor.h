@@ -16,7 +16,7 @@ public:
 
 	string firstName;
 	string LastName;
-	unsigned short int employeeID;
+	string employeeID;
 	vector<Course> qualifiedToTeachCourses;
 };
 
