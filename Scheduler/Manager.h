@@ -18,6 +18,7 @@ public:
 
 	void AddProfessor();
 	void AddCourse();
+	void DisplayProfessors();
 	void DisplayCourses();
 	void Save();
 	void Load();

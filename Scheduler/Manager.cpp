@@ -75,6 +75,21 @@ void Manager::AddCourse()
 	courses.push_back(temp);
 }
 
+void Manager::DisplayProfessors()
+{
+	for (int i = 0; i < instructors.size(); i++)
+	{
+		cout << instructors[i].firstName << " ";
+		cout << instructors[i].LastName << " ";
+		cout << instructors[i].employeeID << " ";
+		
+		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
+			cout << instructors[i].qualifiedToTeachCourses[j].courseName << "\n";
+
+		cout << endl;
+	}
+}
+
 void Manager::DisplayCourses()
 {
 	Classroom room;
@@ -104,7 +119,7 @@ void Manager::Save()
 			outfile << instructors[i].qualifiedToTeachCourses[j].courseSubjectCode << ",";
 			outfile << instructors[i].qualifiedToTeachCourses[j].courseNumID << ",";
 		}
-		outfile << "\b\n";
+		outfile << "end\n";
 	}
 
 	outfile.close();
@@ -166,9 +181,10 @@ void Manager::Load()
 		getline(infile, pTemp.LastName, ',');
 		getline(infile, pTemp.employeeID, ',');
 
-		while (infile.peek() != '\n')
+		getline(infile, input, ',');
+		while (input != "end\n")
 		{
-			getline(infile, cTemp.courseSubjectCode, ',');
+			cTemp.courseSubjectCode = input;
 			getline(infile, cTemp.courseNumID, ',');
 
 			for (int i = 0; i < courses.size(); i++)
@@ -189,9 +205,12 @@ void Manager::Load()
 				cout << "Course: " << cTemp.courseSubjectCode << "-" << cTemp.courseNumID << " Not found!\n";
 			else
 				found = false;
+			getline(infile, input, ',');
 		}
 		
 		instructors.push_back(pTemp);
+
+		getline(infile, pTemp.firstName, ',');
 	}
 
 	infile.close();

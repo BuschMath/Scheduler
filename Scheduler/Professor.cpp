@@ -4,7 +4,7 @@ Professor::Professor()
 {
 	firstName = "Void";
 	LastName = "Void";
-	employeeID = 00000;
+	employeeID = "00000";
 }
 
 Professor::Professor(string firstName_, string LastName_, unsigned short int employeeID_, vector<Course> qualifiedToTeachCourses_)
