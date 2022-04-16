@@ -14,7 +14,7 @@ enum class RoomType
 	auditorium
 };
 
-enum BuildingName
+enum class BuildingName
 {
 	Science,
 	LiberalArts,
@@ -24,14 +24,19 @@ enum BuildingName
 class Classroom
 {
 public:
+	Classroom();
+	Classroom(string roomNumber_, unsigned short int maxRoomCapacity_, RoomType roomType_, BuildingName buildingName_);
 	string RoomTypeToString(RoomType input);
 	RoomType StringToRoomType(string input);
-
-	unsigned short int roomNumber;
+	string BuildingNameToString(BuildingName input);
+	
+	string roomNumber;
 	unsigned short int maxRoomCapacity;
 	RoomType roomType;
 	BuildingName buildingName;
+	
 	vector<RoomType> roomTypeList = { RoomType::normal, RoomType::lab, RoomType::computer, RoomType::auditorium };
+	vector<BuildingName> buildingNameList = { BuildingName::AppliedScienceTechnology, BuildingName::LiberalArts, BuildingName::Science };
 };
 
 #endif // !CLASSROOM_H

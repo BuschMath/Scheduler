@@ -31,12 +31,15 @@ void Manager::AddProfessor()
 		cout << "Select how you would like to add qualifications: \n";
 		cout << "To exit, choose 0: \n";
 		cout << "Select by subject code, choose 1: \n";
+		cout << "Select by course, choose 2: \n";
 		cin >> input;
 		switch (input)
 		{
 			case '0': exit = true;
 				break;
 			case '1': QualBySubject(temp);
+				break;
+			case '2': QualByCourse(temp);
 				break;
 			default: cout << "Input error. Try again. \n";
 				break;
@@ -73,6 +76,38 @@ void Manager::AddCourse()
 	
 	temp.classroomTypeReq = room.roomTypeList[input];
 	courses.push_back(temp);
+}
+
+void Manager::AddClassroom()
+{
+	Classroom temp;
+	int input;
+
+	cout << "Which building is the classroom in: \n";
+	for (int i = 0; i < temp.buildingNameList.size(); i++)
+	{
+		cout << "Choose " << i << " for " << temp.BuildingNameToString(temp.buildingNameList[i]) << endl;
+	}
+	cin >> input;
+
+	temp.buildingName = temp.buildingNameList[input];
+
+	cout << "What is the room number: ";
+	cin >> temp.roomNumber;
+
+	cout << "\nSelect the type of classroom: \n";
+	for (int i = 0; i < temp.roomTypeList.size(); i++)
+	{
+		cout << "Choose " << i << " for " << temp.RoomTypeToString(temp.roomTypeList[i]) << endl;
+	}
+	cin >> input;
+
+	temp.roomType= temp.roomTypeList[input];
+
+	cout << "\nEnter the maximum room capacity: ";
+	cin >> temp.maxRoomCapacity;
+
+	classrooms.push_back(temp);
 }
 
 void Manager::DisplayProfessors()
@@ -235,5 +270,32 @@ void Manager::QualBySubject(Professor& temp)
 	}
 
 	if(!found)
+		cout << "No qualified courses found. Qualification not added.\n";
+}
+
+void Manager::QualByCourse(Professor& temp)
+{
+	string subject;
+	string courseNo;
+	bool found = false;
+
+	cout << "Enter course subject code: ";
+	cin >> subject;
+
+	cout << "\nEnter course number: ";
+	cin >> courseNo;
+
+	for (int i = 0; i < courses.size(); i++)
+	{
+		if (courses[i].courseSubjectCode == subject && courses[i].courseNumID == courseNo)
+		{
+			cout << "Found qualified courses. Qualification added.\n";
+			temp.qualifiedToTeachCourses.push_back(courses[i]);
+			found = true;
+			break;
+		}
+	}
+
+	if (!found)
 		cout << "No qualified courses found. Qualification not added.\n";
 }

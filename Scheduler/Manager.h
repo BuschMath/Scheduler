@@ -18,6 +18,7 @@ public:
 
 	void AddProfessor();
 	void AddCourse();
+	void AddClassroom();
 	void DisplayProfessors();
 	void DisplayCourses();
 	void Save();
@@ -25,9 +26,11 @@ public:
 
 private:
 	void QualBySubject(Professor& temp);
+	void QualByCourse(Professor& temp);
 
 	vector<Professor> instructors;
 	vector<Course> courses;
+	vector<Classroom> classrooms;
 
 };
 

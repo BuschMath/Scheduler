@@ -1,5 +1,21 @@
 #include "Classroom.h"
 
+Classroom::Classroom()
+{
+	roomNumber = "0";
+	maxRoomCapacity = 0;
+	roomType = RoomType::normal;
+	buildingName = BuildingName::Science;
+}
+
+Classroom::Classroom(string roomNumber_, unsigned short int maxRoomCapacity_, RoomType roomType_, BuildingName buildingName_)
+{
+	roomNumber = roomNumber_;
+	maxRoomCapacity = maxRoomCapacity_;
+	roomType = roomType_;
+	buildingName = buildingName_;
+}
+
 string Classroom::RoomTypeToString(RoomType input)
 {
 	switch (input)
@@ -29,4 +45,19 @@ RoomType Classroom::StringToRoomType(string input)
 		return RoomType::auditorium;
 
 	return RoomType::normal;
+}
+
+string BuildingNameToString(BuildingName input)
+{
+	switch (input)
+	{
+	case BuildingName::Science: return "Science";
+		break;
+	case BuildingName::LiberalArts: return "Liberal Arts";
+		break;
+	case BuildingName::AppliedScienceTechnology: "Applied Science and Technology";
+		break;
+	default:
+		break;
+	}
 }
