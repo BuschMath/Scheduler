@@ -19,6 +19,7 @@ public:
 	void AddProfessor();
 	void AddCourse();
 	void AddClassroom();
+	void AddClassMeeting();
 	void DisplayProfessors();
 	void DisplayCourses();
 	void DisplayClassrooms();
@@ -32,6 +33,7 @@ private:
 	vector<Professor> instructors;
 	vector<Course> courses;
 	vector<Classroom> classrooms;
+	vector<ClassMeeting> classMeetings;
 
 };
 

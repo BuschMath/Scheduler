@@ -110,6 +110,48 @@ void Manager::AddClassroom()
 	classrooms.push_back(temp);
 }
 
+void Manager::AddClassMeeting()
+{
+	ClassMeeting temp;
+	string subjectCode;
+	string courseNumID;
+	string input;
+	bool found = false;
+
+	cout << "What is the subject code of the course?: ";
+	cin >> subjectCode;
+
+	cout << "\nWhat is the course number ID?: ";
+	cin >> courseNumID;
+
+	for (int i = 0; i < courses.size(); i++)
+	{
+		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
+		{
+			cout << "\nCourse found and added.\n";
+			temp.course = courses[i];
+			found = true;
+			break;
+		}
+	}
+
+	if (!found)
+	{
+		cout << "\nCourse not found.";
+		return;
+	}
+
+	cout << "\nWhat is the section ID?: ";
+	cin >> temp.sectionID;
+
+	cout << "\nWhat is the maximum number of seats for the class meeting?: ";
+	cin >> input;
+	temp.maxCourseSeats = stoi(input);
+
+	cout << "\nWhat is the starting month of the course?: ";
+	temp.startDate;
+}
+
 void Manager::DisplayProfessors()
 {
 	for (int i = 0; i < instructors.size(); i++)
@@ -293,7 +335,7 @@ void Manager::Load()
 		getline(infile, input, ',');
 		rTemp.StringToRoomType(input);
 		
-		getline(infile, input, ',');
+		getline(infile, input, '\n');
 		rTemp.maxRoomCapacity = stoi(input);
 
 		classrooms.push_back(rTemp);

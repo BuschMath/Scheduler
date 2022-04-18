@@ -26,7 +26,6 @@ enum Month
 	October,
 	November,
 	December
-
 };
 
 struct Time
