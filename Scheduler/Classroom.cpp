@@ -47,7 +47,19 @@ RoomType Classroom::StringToRoomType(string input)
 	return RoomType::normal;
 }
 
-string BuildingNameToString(BuildingName input)
+BuildingName Classroom::StringToBuildingName(string input)
+{
+	if (input == "Science")
+		return BuildingName::Science;
+	else if (input == "Liberal Arts")
+		return BuildingName::LiberalArts;
+	else if (input == "Applied Science and Technology")
+		return BuildingName::AppliedScienceTechnology;
+
+	return BuildingName();
+}
+
+string Classroom::BuildingNameToString(BuildingName input)
 {
 	switch (input)
 	{
@@ -55,9 +67,9 @@ string BuildingNameToString(BuildingName input)
 		break;
 	case BuildingName::LiberalArts: return "Liberal Arts";
 		break;
-	case BuildingName::AppliedScienceTechnology: "Applied Science and Technology";
+	case BuildingName::AppliedScienceTechnology: return "Applied Science and Technology";
 		break;
-	default:
+	default: return "";
 		break;
 	}
 }

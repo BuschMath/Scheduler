@@ -138,6 +138,17 @@ void Manager::DisplayCourses()
 	}
 }
 
+void Manager::DisplayClassrooms()
+{
+	for (int i = 0; i < classrooms.size(); i++)
+	{
+		cout << classrooms[i].BuildingNameToString(classrooms[i].buildingName) << " ";
+		cout << classrooms[i].roomNumber << " ";
+		cout << classrooms[i].RoomTypeToString(classrooms[i].roomType) << " Cap: ";
+		cout << classrooms[i].maxRoomCapacity << endl;
+	}
+}
+
 void Manager::Save()
 {
 	ofstream outfile;
@@ -168,6 +179,18 @@ void Manager::Save()
 		outfile << courses[i].courseNumID << ",";
 		outfile << courses[i].credits << ",";
 		outfile << room.RoomTypeToString(courses[i].classroomTypeReq) << "\n";
+	}
+
+	outfile.close();
+
+	outfile.open("classrooms.dat");
+
+	for (int i = 0; i < classrooms.size(); i++)
+	{
+		outfile << classrooms[i].BuildingNameToString(classrooms[i].buildingName) << ",";
+		outfile << classrooms[i].roomNumber << ",";
+		outfile << classrooms[i].RoomTypeToString(classrooms[i].roomType) << ",";
+		outfile << classrooms[i].maxRoomCapacity << "\n";
 	}
 
 	outfile.close();
@@ -217,7 +240,7 @@ void Manager::Load()
 		getline(infile, pTemp.employeeID, ',');
 
 		getline(infile, input, ',');
-		while (input != "end\n")
+		while (input.substr(0, 4) != "end\n")
 		{
 			cTemp.courseSubjectCode = input;
 			getline(infile, cTemp.courseNumID, ',');
@@ -245,7 +268,32 @@ void Manager::Load()
 		
 		instructors.push_back(pTemp);
 
-		getline(infile, pTemp.firstName, ',');
+		pTemp.firstName = input.substr(4, input.size()-4);
+	}
+
+	infile.close();
+
+	infile.open("classrooms.dat");
+
+	Classroom rTemp;
+
+	getline(infile, input, ',');
+	rTemp.buildingName = rTemp.StringToBuildingName(input);
+
+	while (infile)
+	{
+		getline(infile, rTemp.roomNumber, ',');
+
+		getline(infile, input, ',');
+		rTemp.StringToRoomType(input);
+		
+		getline(infile, input, ',');
+		rTemp.maxRoomCapacity = stoi(input);
+
+		classrooms.push_back(rTemp);
+
+		getline(infile, input, ',');
+		rTemp.buildingName = rTemp.StringToBuildingName(input);
 	}
 
 	infile.close();

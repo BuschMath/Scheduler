@@ -29,6 +29,7 @@ public:
 	string RoomTypeToString(RoomType input);
 	RoomType StringToRoomType(string input);
 	string BuildingNameToString(BuildingName input);
+	BuildingName StringToBuildingName(string input);
 	
 	string roomNumber;
 	unsigned short int maxRoomCapacity;

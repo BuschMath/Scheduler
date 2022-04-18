@@ -23,6 +23,8 @@ int main()
 		cout << "Enter 2 to display professors: \n";
 		cout << "Enter 3 to add course: \n";
 		cout << "Enter 4 to display courses: \n";
+		cout << "Enter 5 to add classroom: \n";
+		cout << "Enter 6 to display classrooms: \n";
 		cout << "Enter s to save: \n";
 		cout << "Enter l to load: \n";
 
@@ -46,6 +48,12 @@ int main()
 				break;
 
 			case '4': manager.DisplayCourses();
+				break;
+
+			case '5': manager.AddClassroom();
+				break;
+
+			case '6': manager.DisplayClassrooms();
 				break;
 
 			case 's': manager.Save();

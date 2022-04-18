@@ -21,6 +21,7 @@ public:
 	void AddClassroom();
 	void DisplayProfessors();
 	void DisplayCourses();
+	void DisplayClassrooms();
 	void Save();
 	void Load();
 
