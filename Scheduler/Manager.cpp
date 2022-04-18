@@ -116,7 +116,7 @@ void Manager::DisplayProfessors()
 	{
 		cout << instructors[i].firstName << " ";
 		cout << instructors[i].LastName << " ";
-		cout << instructors[i].employeeID << " ";
+		cout << instructors[i].employeeID << "\n";
 		
 		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
 			cout << instructors[i].qualifiedToTeachCourses[j].courseName << "\n";
@@ -236,6 +236,7 @@ void Manager::Load()
 
 	while (infile)
 	{
+
 		getline(infile, pTemp.LastName, ',');
 		getline(infile, pTemp.employeeID, ',');
 
@@ -267,6 +268,11 @@ void Manager::Load()
 		}
 		
 		instructors.push_back(pTemp);
+
+		pTemp = *new Professor;
+
+		if (input.substr(4, input.size() - 4) == "")
+			break;
 
 		pTemp.firstName = input.substr(4, input.size()-4);
 	}
