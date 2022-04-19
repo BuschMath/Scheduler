@@ -1,7 +1,11 @@
 #ifndef DATE_H
 #define DATE_H
 
-enum DaysOfWeek
+#include <vector>
+
+using namespace std;
+
+enum class DaysOfWeek
 {
 	Sunday,
 	Monday,
@@ -12,7 +16,7 @@ enum DaysOfWeek
 	Saturday
 };
 
-enum Month
+enum class Month
 {
 	January,
 	February,
@@ -47,6 +51,10 @@ public:
 	unsigned short int day;
 	Month month;
 	unsigned short int year;
+
+	vector<Month> ListOfMonths = { Month::January, Month::February, Month::March, Month::April, Month::May, Month::June,
+									Month::July, Month::August, Month::September, Month::October, Month::November,
+									Month::December };
 };
 
 #endif // !DATE_H
