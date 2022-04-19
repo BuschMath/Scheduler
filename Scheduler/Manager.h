@@ -29,12 +29,17 @@ public:
 private:
 	void QualBySubject(Professor& temp);
 	void QualByCourse(Professor& temp);
+	void CollectProfessorID(Professor& temp);
+	bool CollectProfessorQual(Professor& temp);
+	void CollectCourseID(Course& temp);
+	RoomType CollectReqClassroomType();
+	BuildingName SelectBuilding(Classroom temp);
+	void CollectRoomProperties(Classroom& temp);
 
 	vector<Professor> instructors;
 	vector<Course> courses;
 	vector<Classroom> classrooms;
 	vector<ClassMeeting> classMeetings;
-
 };
 
 #endif // !MANAGER_H

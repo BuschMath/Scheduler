@@ -2,6 +2,7 @@
 #define DATE_H
 
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -47,6 +48,8 @@ public:
 	~Date();
 
 	bool isOlder(Date date);
+	string MonthToString(Month input);
+	string DayToString(DaysOfWeek input);
 
 	unsigned short int day;
 	Month month;
@@ -55,6 +58,9 @@ public:
 	vector<Month> ListOfMonths = { Month::January, Month::February, Month::March, Month::April, Month::May, Month::June,
 									Month::July, Month::August, Month::September, Month::October, Month::November,
 									Month::December };
+
+	vector<DaysOfWeek> ListOfDays = { DaysOfWeek::Sunday, DaysOfWeek::Monday, DaysOfWeek::Tuesday, DaysOfWeek::Wednesday,
+										DaysOfWeek::Thursday, DaysOfWeek::Friday, DaysOfWeek::Saturday };
 };
 
 #endif // !DATE_H
