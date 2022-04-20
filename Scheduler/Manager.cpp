@@ -49,111 +49,20 @@ void Manager::AddClassroom()
 void Manager::AddClassMeeting()
 {
 	ClassMeeting temp;
-	string subjectCode;
-	string courseNumID;
 	string input;
-	bool found = false;
 
-	cout << "What is the subject code of the course?: ";
-	cin >> subjectCode;
+	temp.course = FindCourseBySubjectCodeNumber();
 
-	cout << "\nWhat is the course number ID?: ";
-	cin >> courseNumID;
+	CollectClassMeetingSectionIDMaxSeats(temp);
 
-	for (int i = 0; i < courses.size(); i++)
-	{
-		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
-		{
-			cout << "\nCourse found and added.\n";
-			temp.course = courses[i];
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-	{
-		cout << "\nCourse not found.";
-		return;
-	}
-
-	cout << "\nWhat is the section ID?: ";
-	cin >> temp.sectionID;
-
-	cout << "\nWhat is the maximum number of seats for the class meeting?: ";
-	cin >> input;
-	temp.maxCourseSeats = stoi(input);
-
-	Date dayTemp;
-
-	cout << "\nWhat is the starting month of the course?: ";
-	for (int i = 0; i < dayTemp.ListOfMonths.size(); i++)
-	{
-		cout << "Choose " << i << " for " << dayTemp.MonthToString(dayTemp.ListOfMonths[i]) << endl;
-	}
-	cin >> input;
-	 
-	dayTemp.month = dayTemp.ListOfMonths[stoi(input)];
-
-	cout << "\nInput the starting day as an integer.: ";
-	cin >> dayTemp.day;
-
-	cout << "\nWhat is the starting year?: ";
-	cin >> dayTemp.year;
-	temp.startDate = dayTemp;
-
-	dayTemp = *new Date();
-
-	cout << "\nWhat is the ending month of the course?: ";
-	for (int i = 0; i < dayTemp.ListOfMonths.size(); i++)
-	{
-		cout << "Choose " << i << " for " << dayTemp.MonthToString(dayTemp.ListOfMonths[i]) << endl;
-	}
-	cin >> input;
-
-	dayTemp.month = dayTemp.ListOfMonths[stoi(input)];
-
-	cout << "\nInput the ending day as an integer.: ";
-	cin >> dayTemp.day;
-
-	cout << "\nWhat is the ending year?: ";
-	cin >> dayTemp.year;
-	temp.endDate = dayTemp;
-
-	cout << "\nWhat is the starting hour?: ";
-	cin >> temp.startTime.hour;
-	cout << "\nWhat is the starting minute?: ";
-	cin >> temp.startTime.min;
-
-	cout << "\nWhat is the ending hour?: ";
-	cin >> temp.endTime.hour;
-	cout << "\nWhat is the ending minute?: ";
-	cin >> temp.endTime.min;
-
-	while (stoi(input) != dayTemp.ListOfDays.size())
-	{
-		cout << "\nSelect the days of the week the course should meet.: ";
-		for (int i = 0; i < dayTemp.ListOfDays.size(); i++)
-		{
-			cout << "\nChoose " << i << " for " << dayTemp.DayToString(dayTemp.ListOfDays[i]);
-		}
-		cout << "\nChoose " << dayTemp.ListOfDays.size() << " to exit day choice menu.: ";
-
-		if (stoi(input) != dayTemp.ListOfDays.size())
-			temp.weekdayMeet.push_back(dayTemp.ListOfDays[stoi(input)]);
-	}
+	CollectClassMeetingStartingEndingInfo(temp);
 }
 
 void Manager::DisplayProfessors()
 {
 	for (int i = 0; i < instructors.size(); i++)
 	{
-		cout << instructors[i].firstName << " ";
-		cout << instructors[i].LastName << " ";
-		cout << instructors[i].employeeID << "\n";
-		
-		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
-			cout << instructors[i].qualifiedToTeachCourses[j].courseName << "\n";
+		OutputProfessors(cout, i, " ");
 
 		cout << endl;
 	}
@@ -183,22 +92,27 @@ void Manager::DisplayClassrooms()
 	}
 }
 
+void Manager::OutputProfessors(ostream& oStream, int ProfNum, string dlimit)
+{
+	oStream << instructors[ProfNum].firstName << dlimit;
+	oStream << instructors[ProfNum].LastName << dlimit;
+	oStream << instructors[ProfNum].employeeID << dlimit;
+
+	for (int j = 0; j < instructors[ProfNum].qualifiedToTeachCourses.size(); j++)
+	{
+		oStream << instructors[ProfNum].qualifiedToTeachCourses[j].courseSubjectCode << dlimit;
+		oStream << instructors[ProfNum].qualifiedToTeachCourses[j].courseNumID << dlimit;
+	}
+}
+
 void Manager::Save()
 {
 	ofstream outfile;
-	outfile.open("instructors.dat");
+	outfile.open(ProfessorSaveFileName);
 
 	for (int i = 0; i < instructors.size(); i++)
 	{
-		outfile << instructors[i].firstName << ",";
-		outfile << instructors[i].LastName << ",";
-		outfile << instructors[i].employeeID << ",";
-
-		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
-		{
-			outfile << instructors[i].qualifiedToTeachCourses[j].courseSubjectCode << ",";
-			outfile << instructors[i].qualifiedToTeachCourses[j].courseNumID << ",";
-		}
+		OutputProfessors(outfile, i, ",");
 		outfile << "end\n";
 	}
 
@@ -486,4 +400,127 @@ void Manager::CollectRoomProperties(Classroom& temp)
 
 	cout << "\nEnter the maximum room capacity: ";
 	cin >> temp.maxRoomCapacity;
+}
+
+Course Manager::FindCourseBySubjectCodeNumber()
+{
+	string subjectCode;
+	string courseNumID;
+
+	cout << "What is the subject code of the course?: ";
+	cin >> subjectCode;
+
+	cout << "\nWhat is the course number ID?: ";
+	cin >> courseNumID;
+
+	for (int i = 0; i < courses.size(); i++)
+	{
+		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
+		{
+			cout << "\nCourse found and added.\n";
+			return courses[i];
+		}
+	}
+
+	cout << "\nCourse not found.";
+
+	return Course();
+}
+
+void Manager::CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp)
+{
+	string input;
+
+	cout << "\nWhat is the section ID?: ";
+	cin >> temp.sectionID;
+
+	cout << "\nWhat is the maximum number of seats for the class meeting?: ";
+	cin >> input;
+	temp.maxCourseSeats = stoi(input);
+}
+
+void Manager::CollectClassMeetingStartingEndingInfo(ClassMeeting& temp)
+{
+	temp.startDate = CollectClassMeetingStartDayMonthYear();
+
+	temp.endDate = CollectClassMeetingEndDayMonthYear();
+
+	CollectClassMeetingStartEndTime(temp);
+
+	SelectClassMeetingDaysOfWeek(temp);
+}
+
+Date Manager::CollectClassMeetingStartDayMonthYear()
+{
+	Date dayTemp;
+	string input;
+
+	cout << "\nWhat is the starting month of the course?: ";
+	for (int i = 0; i < dayTemp.ListOfMonths.size(); i++)
+	{
+		cout << "Choose " << i << " for " << dayTemp.MonthToString(dayTemp.ListOfMonths[i]) << endl;
+	}
+	cin >> input;
+
+	dayTemp.month = dayTemp.ListOfMonths[stoi(input)];
+
+	cout << "\nInput the starting day as an integer.: ";
+	cin >> dayTemp.day;
+
+	cout << "\nWhat is the starting year?: ";
+	cin >> dayTemp.year;
+	return dayTemp;
+}
+
+Date Manager::CollectClassMeetingEndDayMonthYear()
+{
+	Date dayTemp;
+	string input;
+
+	cout << "\nWhat is the ending month of the course?: ";
+	for (int i = 0; i < dayTemp.ListOfMonths.size(); i++)
+	{
+		cout << "Choose " << i << " for " << dayTemp.MonthToString(dayTemp.ListOfMonths[i]) << endl;
+	}
+	cin >> input;
+
+	dayTemp.month = dayTemp.ListOfMonths[stoi(input)];
+
+	cout << "\nInput the ending day as an integer.: ";
+	cin >> dayTemp.day;
+
+	cout << "\nWhat is the ending year?: ";
+	cin >> dayTemp.year;
+	return dayTemp;
+}
+
+void Manager::CollectClassMeetingStartEndTime(ClassMeeting& temp)
+{
+	cout << "\nWhat is the starting hour?: ";
+	cin >> temp.startTime.hour;
+	cout << "\nWhat is the starting minute?: ";
+	cin >> temp.startTime.min;
+
+	cout << "\nWhat is the ending hour?: ";
+	cin >> temp.endTime.hour;
+	cout << "\nWhat is the ending minute?: ";
+	cin >> temp.endTime.min;
+}
+
+void Manager::SelectClassMeetingDaysOfWeek(ClassMeeting& temp)
+{
+	Date dayTemp;
+	string input = "-1";
+	while (stoi(input) != dayTemp.ListOfDays.size())
+	{
+		cout << "\nSelect the days of the week the course should meet.: ";
+		for (int i = 0; i < dayTemp.ListOfDays.size(); i++)
+		{
+			cout << "\nChoose " << i << " for " << dayTemp.DayToString(dayTemp.ListOfDays[i]);
+		}
+		cout << "\nChoose " << dayTemp.ListOfDays.size() << " to exit day choice menu.: ";
+
+		if (stoi(input) != dayTemp.ListOfDays.size())
+			temp.weekdayMeet.push_back(dayTemp.ListOfDays[stoi(input)]);
+	}
 }

@@ -9,7 +9,7 @@
 using namespace std;
 
 void OutputMenuOptions();
-bool InputMenuChoice();
+bool InputMenuChoice(Manager& manager);
 
 int main()
 {
@@ -21,7 +21,7 @@ int main()
 	{
 		OutputMenuOptions();
 
-		exit = InputMenuChoice();
+		exit = InputMenuChoice(manager);
 	}
 
 	return 0;
@@ -44,7 +44,7 @@ void OutputMenuOptions()
 	cout << endl;
 }
 
-bool InputMenuChoice()
+bool InputMenuChoice(Manager& manager)
 {
 	char input = '0';
 	cin >> input;

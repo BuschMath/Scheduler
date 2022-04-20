@@ -8,6 +8,8 @@
 #include "Professor.h"
 #include "ClassMeeting.h"
 
+const string ProfessorSaveFileName = "instructors.dat";
+
 using namespace std;
 
 class Manager
@@ -23,6 +25,7 @@ public:
 	void DisplayProfessors();
 	void DisplayCourses();
 	void DisplayClassrooms();
+	void OutputProfessors(ostream& oStream, int ProfNum, string dlimit);
 	void Save();
 	void Load();
 
@@ -35,6 +38,13 @@ private:
 	RoomType CollectReqClassroomType();
 	BuildingName SelectBuilding(Classroom temp);
 	void CollectRoomProperties(Classroom& temp);
+	Course FindCourseBySubjectCodeNumber();
+	void CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp);
+	void CollectClassMeetingStartingEndingInfo(ClassMeeting& temp);
+	Date CollectClassMeetingStartDayMonthYear();
+	Date CollectClassMeetingEndDayMonthYear();
+	void CollectClassMeetingStartEndTime(ClassMeeting& temp);
+	void SelectClassMeetingDaysOfWeek(ClassMeeting& temp);
 
 	vector<Professor> instructors;
 	vector<Course> courses;
