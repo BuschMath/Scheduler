@@ -60,48 +60,57 @@ void Manager::AddClassMeeting()
 
 void Manager::DisplayProfessors()
 {
-	for (int i = 0; i < instructors.size(); i++)
-	{
-		OutputProfessors(cout, i, " ");
-
-		cout << endl;
-	}
+	OutputProfessors(cout, " ", "\n");
 }
 
 void Manager::DisplayCourses()
 {
-	Classroom room;
-	for (int i = 0; i < courses.size(); i++)
-	{
-		cout << courses[i].courseName << " ";
-		cout << courses[i].courseSubjectCode << "-";
-		cout << courses[i].courseNumID << " ";
-		cout << courses[i].credits << " ";
-		cout << room.RoomTypeToString(courses[i].classroomTypeReq) << endl;
-	}
+	OutputCourses(cout, " ");
 }
 
 void Manager::DisplayClassrooms()
 {
-	for (int i = 0; i < classrooms.size(); i++)
+	OutputClassrooms(cout, " ");
+}
+
+void Manager::OutputProfessors(ostream& oStream, string dlimit, string ending)
+{
+	for (int i = 0; i < instructors.size(); i++)
 	{
-		cout << classrooms[i].BuildingNameToString(classrooms[i].buildingName) << " ";
-		cout << classrooms[i].roomNumber << " ";
-		cout << classrooms[i].RoomTypeToString(classrooms[i].roomType) << " Cap: ";
-		cout << classrooms[i].maxRoomCapacity << endl;
+		oStream << instructors[i].firstName << dlimit;
+		oStream << instructors[i].LastName << dlimit;
+		oStream << instructors[i].employeeID << dlimit;
+
+		for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
+		{
+			oStream << instructors[i].qualifiedToTeachCourses[j].courseSubjectCode << dlimit;
+			oStream << instructors[i].qualifiedToTeachCourses[j].courseNumID << dlimit;
+		}
+		oStream << ending;
 	}
 }
 
-void Manager::OutputProfessors(ostream& oStream, int ProfNum, string dlimit)
+void Manager::OutputCourses(ostream& oStream, string dlimit)
 {
-	oStream << instructors[ProfNum].firstName << dlimit;
-	oStream << instructors[ProfNum].LastName << dlimit;
-	oStream << instructors[ProfNum].employeeID << dlimit;
-
-	for (int j = 0; j < instructors[ProfNum].qualifiedToTeachCourses.size(); j++)
+	Classroom room;
+	for (int i = 0; i < courses.size(); i++)
 	{
-		oStream << instructors[ProfNum].qualifiedToTeachCourses[j].courseSubjectCode << dlimit;
-		oStream << instructors[ProfNum].qualifiedToTeachCourses[j].courseNumID << dlimit;
+		oStream << courses[i].courseName << dlimit;
+		oStream << courses[i].courseSubjectCode << dlimit;
+		oStream << courses[i].courseNumID << dlimit;
+		oStream << courses[i].credits << dlimit;
+		oStream << room.RoomTypeToString(courses[i].classroomTypeReq) << "\n";
+	}
+}
+
+void Manager::OutputClassrooms(ostream& oStream, string dlimit)
+{
+	for (int i = 0; i < classrooms.size(); i++)
+	{
+		oStream << classrooms[i].BuildingNameToString(classrooms[i].buildingName) << dlimit;
+		oStream << classrooms[i].roomNumber << dlimit;
+		oStream << classrooms[i].RoomTypeToString(classrooms[i].roomType) << dlimit;
+		oStream << classrooms[i].maxRoomCapacity << "\n";
 	}
 }
 
@@ -109,38 +118,15 @@ void Manager::Save()
 {
 	ofstream outfile;
 	outfile.open(ProfessorSaveFileName);
-
-	for (int i = 0; i < instructors.size(); i++)
-	{
-		OutputProfessors(outfile, i, ",");
-		outfile << "end\n";
-	}
-
+	OutputProfessors(outfile, ",", "end\n");
 	outfile.close();
 
-	Classroom room;
-	outfile.open("courses.dat");
-	for (int i = 0; i < courses.size(); i++)
-	{
-		outfile << courses[i].courseName << ",";
-		outfile << courses[i].courseSubjectCode << ",";
-		outfile << courses[i].courseNumID << ",";
-		outfile << courses[i].credits << ",";
-		outfile << room.RoomTypeToString(courses[i].classroomTypeReq) << "\n";
-	}
-
+	outfile.open(CoursesSaveFileName);
+	OutputCourses(outfile, ",");
 	outfile.close();
 
-	outfile.open("classrooms.dat");
-
-	for (int i = 0; i < classrooms.size(); i++)
-	{
-		outfile << classrooms[i].BuildingNameToString(classrooms[i].buildingName) << ",";
-		outfile << classrooms[i].roomNumber << ",";
-		outfile << classrooms[i].RoomTypeToString(classrooms[i].roomType) << ",";
-		outfile << classrooms[i].maxRoomCapacity << "\n";
-	}
-
+	outfile.open(ClassroomSaveFileName);
+	OutputClassrooms(outfile, ",");
 	outfile.close();
 }
 

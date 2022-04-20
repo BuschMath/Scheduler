@@ -9,6 +9,8 @@
 #include "ClassMeeting.h"
 
 const string ProfessorSaveFileName = "instructors.dat";
+const string CoursesSaveFileName = "courses.dat";
+const string ClassroomSaveFileName = "classrooms.dat";
 
 using namespace std;
 
@@ -25,7 +27,9 @@ public:
 	void DisplayProfessors();
 	void DisplayCourses();
 	void DisplayClassrooms();
-	void OutputProfessors(ostream& oStream, int ProfNum, string dlimit);
+	void OutputProfessors(ostream& oStream, string dlimit, string ending);
+	void OutputCourses(ostream& oStream, string dlimit);
+	void OutputClassrooms(ostream& oStream, string dlimit);
 	void Save();
 	void Load();
 
