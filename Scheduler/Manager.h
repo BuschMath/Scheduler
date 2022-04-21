@@ -24,12 +24,15 @@ public:
 	void AddCourse();
 	void AddClassroom();
 	void AddClassMeeting();
+	
 	void DisplayProfessors();
 	void DisplayCourses();
 	void DisplayClassrooms();
+	
 	void OutputProfessors(ostream& oStream, string dlimit, string ending);
 	void OutputCourses(ostream& oStream, string dlimit);
 	void OutputClassrooms(ostream& oStream, string dlimit);
+	
 	void Save();
 	void Load();
 
