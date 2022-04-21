@@ -5,6 +5,7 @@
 #include <vector>
 #include "Classroom.h"
 #include "Date.h"
+#include "Professor.h"
 
 using namespace std;
 
@@ -28,7 +29,8 @@ public:
 		Time startTime_,
 		Time endTime_,
 		Date startDate_,
-		Date endDate_);
+		Date endDate_, 
+		Professor instructor);
 
 	Course course;
 	string sectionID;
@@ -38,6 +40,7 @@ public:
 	Time endTime;
 	Date startDate;
 	Date endDate;
+	Professor assignedInstructor;
 };
 
 #endif // !COURSE_H

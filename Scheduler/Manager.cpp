@@ -49,13 +49,16 @@ void Manager::AddClassroom()
 void Manager::AddClassMeeting()
 {
 	ClassMeeting temp;
-	string input;
 
 	temp.course = FindCourseBySubjectCodeNumber();
 
 	CollectClassMeetingSectionIDMaxSeats(temp);
 
 	CollectClassMeetingStartingEndingInfo(temp);
+
+	AssignInstructor(temp);
+
+	classMeetings.push_back(temp);
 }
 
 void Manager::DisplayProfessors()
@@ -419,6 +422,11 @@ void Manager::SelectClassMeetingDaysOfWeek(ClassMeeting& temp)
 		if (stoi(input) != dayTemp.ListOfDays.size())
 			temp.weekdayMeet.push_back(dayTemp.ListOfDays[stoi(input)]);
 	}
+}
+
+void Manager::AssignInstructor(ClassMeeting& temp)
+{
+
 }
 
 void Manager::LoadCourses(istream& iStream)
