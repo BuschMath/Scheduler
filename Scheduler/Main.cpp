@@ -38,6 +38,7 @@ void OutputMenuOptions()
 	cout << "Enter 5 to add classroom: \n";
 	cout << "Enter 6 to display classrooms: \n";
 	cout << "Enter 7 to add class meeting: \n";
+	cout << "Enter 8 to display class meetings: \n";
 	cout << "Enter s to save: \n";
 	cout << "Enter l to load: \n";
 
@@ -67,6 +68,8 @@ bool InputMenuChoice(Manager& manager)
 	case '6': manager.DisplayClassrooms();
 		break;
 	case '7': manager.AddClassMeeting();
+		break;
+	case '8': manager.DisplayClassMeetings();
 		break;
 	case 's': manager.Save();
 		break;

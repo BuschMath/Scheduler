@@ -5,18 +5,10 @@
 #include <vector>
 #include "Classroom.h"
 #include "Date.h"
+#include "Course.h"
 #include "Professor.h"
 
 using namespace std;
-
-struct Course
-{
-	string courseName;
-	string courseSubjectCode;
-	string courseNumID;
-	unsigned short int credits;
-	RoomType classroomTypeReq;
-};
 
 class ClassMeeting
 {

@@ -76,6 +76,11 @@ void Manager::DisplayClassrooms()
 	OutputClassrooms(cout, " ");
 }
 
+void Manager::DisplayClassMeetings()
+{
+	OutputClassMeeting(cout, " ");
+}
+
 void Manager::OutputProfessors(ostream& oStream, string dlimit, string ending)
 {
 	for (int i = 0; i < instructors.size(); i++)
@@ -117,6 +122,36 @@ void Manager::OutputClassrooms(ostream& oStream, string dlimit)
 	}
 }
 
+void Manager::OutputClassMeeting(ostream& oStream, string dlimit)
+{
+	for (int i = 0; i < classMeetings.size(); i++)
+	{
+		oStream << classMeetings[i].course.courseSubjectCode << dlimit;
+		oStream << classMeetings[i].course.courseNumID << dlimit;
+		oStream << classMeetings[i].sectionID << dlimit;
+		oStream << classMeetings[i].maxCourseSeats << dlimit;
+		
+		for (int j = 0; j < classMeetings[i].weekdayMeet.size(); j++)
+		{
+			oStream << classMeetings[i].startDate.DayToString(classMeetings[i].weekdayMeet[j]);
+		}
+		oStream << dlimit;
+
+		oStream << classMeetings[i].startTime.hour << dlimit;
+		oStream << classMeetings[i].startTime.min << dlimit;
+		oStream << classMeetings[i].endTime.hour << dlimit;
+		oStream << classMeetings[i].endTime.min << dlimit;
+		oStream << classMeetings[i].startDate.day << dlimit;
+		oStream << classMeetings[i].startDate.MonthToString(classMeetings[i].startDate.month) << dlimit;
+		oStream << classMeetings[i].startDate.year << dlimit;
+		oStream << classMeetings[i].endDate.day << dlimit;
+		oStream << classMeetings[i].endDate.MonthToString(classMeetings[i].endDate.month) << dlimit;
+		oStream << classMeetings[i].endDate.year << dlimit;
+		oStream << classMeetings[i].assignedInstructor.firstName << dlimit;
+		oStream << classMeetings[i].assignedInstructor.LastName << endl;
+	}
+}
+
 void Manager::Save()
 {
 	ofstream outfile;
@@ -132,6 +167,10 @@ void Manager::Save()
 
 	outfile.open(ClassroomSaveFileName);
 	OutputClassrooms(outfile, dlimit);
+	outfile.close();
+
+	outfile.open(ClassMeetingSaveFileName);
+	OutputClassMeeting(outfile, dlimit);
 	outfile.close();
 }
 
@@ -149,6 +188,10 @@ void Manager::Load()
 
 	infile.open(ClassroomSaveFileName);
 	LoadClassrooms(infile);
+	infile.close();
+
+	infile.open(ClassMeetingSaveFileName);
+	LoadClassMeetings(infile);
 	infile.close();
 }
 
@@ -376,7 +419,7 @@ Date Manager::CollectClassMeetingEndDayMonthYear()
 	Date dayTemp;
 	string input;
 
-	cout << "\nWhat is the ending month of the course?: ";
+	cout << "\nWhat is the ending month of the course?: \n";
 	for (int i = 0; i < dayTemp.ListOfMonths.size(); i++)
 	{
 		cout << "Choose " << i << " for " << dayTemp.MonthToString(dayTemp.ListOfMonths[i]) << endl;
@@ -419,6 +462,8 @@ void Manager::SelectClassMeetingDaysOfWeek(ClassMeeting& temp)
 		}
 		cout << "\nChoose " << dayTemp.ListOfDays.size() << " to exit day choice menu.: ";
 
+		cin >> input;
+
 		if (stoi(input) != dayTemp.ListOfDays.size())
 			temp.weekdayMeet.push_back(dayTemp.ListOfDays[stoi(input)]);
 	}
@@ -426,7 +471,34 @@ void Manager::SelectClassMeetingDaysOfWeek(ClassMeeting& temp)
 
 void Manager::AssignInstructor(ClassMeeting& temp)
 {
+	string firstName;
+	string lastName;
+	cout << "\nWhat is the first name of the instructor: ";
+	cin >> firstName;
+	cout << "\nWhat is the last name of the instructor: ";
+	cin >> lastName;
 
+	cout << "\nSearching...";
+	for (int i = 0; i < instructors.size(); i++)
+	{
+		if (instructors[i].firstName == firstName && instructors[i].LastName == lastName)
+		{
+			cout << "\nInstructor found, checking qualifications.";
+
+			for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
+			{
+				if (instructors[i].qualifiedToTeachCourses[j].courseName == temp.course.courseName)
+				{
+					cout << "\nQualification found, adding instructor.";
+
+					temp.assignedInstructor = instructors[i];
+					return;
+				}
+			}
+			cout << "\nQualification not found, assign instructor failed.";
+		}
+	}
+	cout << "\nInstructor not found, assign instructor failed.";
 }
 
 void Manager::LoadCourses(istream& iStream)
@@ -530,4 +602,8 @@ void Manager::LoadClassrooms(istream& iStream)
 		getline(iStream, input, ',');
 		rTemp.buildingName = rTemp.StringToBuildingName(input);
 	}
+}
+
+void Manager::LoadClassMeetings(istream& iStream)
+{
 }

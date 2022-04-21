@@ -2,7 +2,7 @@
 
 ClassMeeting::ClassMeeting()
 {
-	course = Course{ "Void", "Void", 000, 0, RoomType::auditorium};
+	course = Course();
 	sectionID = "XXXX";
 	maxCourseSeats = 0;
 	weekdayMeet.push_back(DaysOfWeek::Sunday);

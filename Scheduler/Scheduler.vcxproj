@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Classroom.h" />
     <ClInclude Include="ClassMeeting.h" />
+    <ClInclude Include="Course.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Professor.h" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Classroom.cpp" />
     <ClCompile Include="ClassMeeting.cpp" />
+    <ClCompile Include="Course.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manager.cpp" />

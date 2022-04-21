@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "ClassMeeting.h"
+#include "Course.h"
 
 using namespace std;
 

@@ -11,6 +11,7 @@
 const string ProfessorSaveFileName = "instructors.dat";
 const string CoursesSaveFileName = "courses.dat";
 const string ClassroomSaveFileName = "classrooms.dat";
+const string ClassMeetingSaveFileName = "classmeeting.dat";
 
 using namespace std;
 
@@ -28,10 +29,12 @@ public:
 	void DisplayProfessors();
 	void DisplayCourses();
 	void DisplayClassrooms();
+	void DisplayClassMeetings();
 	
 	void OutputProfessors(ostream& oStream, string dlimit, string ending);
 	void OutputCourses(ostream& oStream, string dlimit);
 	void OutputClassrooms(ostream& oStream, string dlimit);
+	void OutputClassMeeting(ostream& oStream, string dlimit);
 	
 	void Save();
 	void Load();
@@ -56,6 +59,7 @@ private:
 	void LoadCourses(istream& iStream);
 	void LoadProfessors(istream& iStream);
 	void LoadClassrooms(istream& iStream);
+	void LoadClassMeetings(istream& iStream);
 
 	vector<Professor> instructors;
 	vector<Course> courses;
