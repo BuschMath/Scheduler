@@ -190,9 +190,10 @@ void Manager::Load()
 	LoadClassrooms(infile);
 	infile.close();
 
-	infile.open(ClassMeetingSaveFileName);
+	// Currently broken :(
+	/*infile.open(ClassMeetingSaveFileName);
 	LoadClassMeetings(infile);
-	infile.close();
+	infile.close();*/
 }
 
 void Manager::QualBySubject(Professor& temp)
@@ -355,6 +356,11 @@ Course Manager::FindCourseBySubjectCodeNumber()
 	cout << "\nWhat is the course number ID?: ";
 	cin >> courseNumID;
 
+	FindCourseBySubjectCodeNumber(subjectCode, courseNumID);
+}
+
+Course Manager::FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID)
+{
 	for (int i = 0; i < courses.size(); i++)
 	{
 		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
@@ -606,4 +612,22 @@ void Manager::LoadClassrooms(istream& iStream)
 
 void Manager::LoadClassMeetings(istream& iStream)
 {
+	ClassMeeting temp;
+	string subjectCode;
+	string courseIDNum;
+	string input;
+
+	while (iStream)
+	{	
+		getline(iStream, subjectCode, ',');
+		getline(iStream, courseIDNum, ',');
+		temp.course = FindCourseBySubjectCodeNumber(subjectCode, courseIDNum);
+
+		getline(iStream, temp.sectionID, ',');
+
+		getline(iStream, input, ',');
+		temp.maxCourseSeats = stoi(input);
+
+		// more code
+	}
 }

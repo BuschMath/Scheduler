@@ -49,6 +49,7 @@ private:
 	BuildingName SelectBuilding(Classroom temp);
 	void CollectRoomProperties(Classroom& temp);
 	Course FindCourseBySubjectCodeNumber();
+	Course FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID);
 	void CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp);
 	void CollectClassMeetingStartingEndingInfo(ClassMeeting& temp);
 	Date CollectClassMeetingStartDayMonthYear();
