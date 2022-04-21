@@ -49,6 +49,9 @@ private:
 	Date CollectClassMeetingEndDayMonthYear();
 	void CollectClassMeetingStartEndTime(ClassMeeting& temp);
 	void SelectClassMeetingDaysOfWeek(ClassMeeting& temp);
+	void LoadCourses(istream& iStream);
+	void LoadProfessors(istream& iStream);
+	void LoadClassrooms(istream& iStream);
 
 	vector<Professor> instructors;
 	vector<Course> courses;

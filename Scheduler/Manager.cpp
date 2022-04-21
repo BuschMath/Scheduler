@@ -117,16 +117,18 @@ void Manager::OutputClassrooms(ostream& oStream, string dlimit)
 void Manager::Save()
 {
 	ofstream outfile;
+	string dlimit = ",";
+	string ending = "end\n";
 	outfile.open(ProfessorSaveFileName);
-	OutputProfessors(outfile, ",", "end\n");
+	OutputProfessors(outfile, dlimit, ending);
 	outfile.close();
 
 	outfile.open(CoursesSaveFileName);
-	OutputCourses(outfile, ",");
+	OutputCourses(outfile, dlimit);
 	outfile.close();
 
 	outfile.open(ClassroomSaveFileName);
-	OutputClassrooms(outfile, ",");
+	OutputClassrooms(outfile, dlimit);
 	outfile.close();
 }
 
@@ -134,108 +136,16 @@ void Manager::Load()
 {
 	ifstream infile;
 
-	infile.open("courses.dat");
-	string input;
-	Classroom room;
-	Course temp;
-
-	getline(infile, temp.courseName, ',');
-	while (infile)
-	{
-		getline(infile, temp.courseSubjectCode, ',');
-
-		getline(infile, temp.courseNumID, ',');
-
-		getline(infile, input, ',');
-		temp.credits = stoi(input);
-
-		getline(infile, input, '\n');
-		temp.classroomTypeReq = room.StringToRoomType(input);
-
-		courses.push_back(temp);
-		temp = *new Course;
-
-		getline(infile, temp.courseName, ',');
-	}
-
+	infile.open(CoursesSaveFileName);
+	LoadCourses(infile);
 	infile.close();
 
-	Professor pTemp;
-	Course cTemp;
-	bool found = false;
-
-	infile.open("instructors.dat");
-
-	getline(infile, pTemp.firstName, ',');
-
-	while (infile)
-	{
-
-		getline(infile, pTemp.LastName, ',');
-		getline(infile, pTemp.employeeID, ',');
-
-		getline(infile, input, ',');
-		while (input.substr(0, 4) != "end\n")
-		{
-			cTemp.courseSubjectCode = input;
-			getline(infile, cTemp.courseNumID, ',');
-
-			for (int i = 0; i < courses.size(); i++)
-			{
-				if (courses[i].courseSubjectCode == cTemp.courseSubjectCode && courses[i].courseNumID == cTemp.courseNumID)
-				{
-					cTemp.classroomTypeReq = courses[i].classroomTypeReq;
-					cTemp.courseName = courses[i].courseName;
-					cTemp.credits = courses[i].credits;
-
-					pTemp.qualifiedToTeachCourses.push_back(cTemp);
-					found = true;
-					break;
-				}
-			}
-
-			if (!found)
-				cout << "Course: " << cTemp.courseSubjectCode << "-" << cTemp.courseNumID << " Not found!\n";
-			else
-				found = false;
-			getline(infile, input, ',');
-		}
-		
-		instructors.push_back(pTemp);
-
-		pTemp = *new Professor;
-
-		if (input.substr(4, input.size() - 4) == "")
-			break;
-
-		pTemp.firstName = input.substr(4, input.size()-4);
-	}
-
+	infile.open(ProfessorSaveFileName);
+	LoadProfessors(infile);
 	infile.close();
 
-	infile.open("classrooms.dat");
-
-	Classroom rTemp;
-
-	getline(infile, input, ',');
-	rTemp.buildingName = rTemp.StringToBuildingName(input);
-
-	while (infile)
-	{
-		getline(infile, rTemp.roomNumber, ',');
-
-		getline(infile, input, ',');
-		rTemp.StringToRoomType(input);
-		
-		getline(infile, input, '\n');
-		rTemp.maxRoomCapacity = stoi(input);
-
-		classrooms.push_back(rTemp);
-
-		getline(infile, input, ',');
-		rTemp.buildingName = rTemp.StringToBuildingName(input);
-	}
-
+	infile.open(ClassroomSaveFileName);
+	LoadClassrooms(infile);
 	infile.close();
 }
 
@@ -508,5 +418,108 @@ void Manager::SelectClassMeetingDaysOfWeek(ClassMeeting& temp)
 
 		if (stoi(input) != dayTemp.ListOfDays.size())
 			temp.weekdayMeet.push_back(dayTemp.ListOfDays[stoi(input)]);
+	}
+}
+
+void Manager::LoadCourses(istream& iStream)
+{
+	Course temp;
+	string input;
+	Classroom room;
+
+	getline(iStream, temp.courseName, ',');
+	while (iStream)
+	{
+		getline(iStream, temp.courseSubjectCode, ',');
+
+		getline(iStream, temp.courseNumID, ',');
+
+		getline(iStream, input, ',');
+		temp.credits = stoi(input);
+
+		getline(iStream, input, '\n');
+		temp.classroomTypeReq = room.StringToRoomType(input);
+
+		courses.push_back(temp);
+		temp = *new Course;
+
+		getline(iStream, temp.courseName, ',');
+	}
+}
+
+void Manager::LoadProfessors(istream& iStream)
+{
+	Professor pTemp;
+	Course cTemp;
+	bool found = false;
+	string input;
+
+	getline(iStream, pTemp.firstName, ',');
+
+	while (iStream)
+	{
+		getline(iStream, pTemp.LastName, ',');
+		getline(iStream, pTemp.employeeID, ',');
+
+		getline(iStream, input, ',');
+		while (input.substr(0, 4) != "end\n")
+		{
+			cTemp.courseSubjectCode = input;
+			getline(iStream, cTemp.courseNumID, ',');
+
+			for (int i = 0; i < courses.size(); i++)
+			{
+				if (courses[i].courseSubjectCode == cTemp.courseSubjectCode && courses[i].courseNumID == cTemp.courseNumID)
+				{
+					cTemp.classroomTypeReq = courses[i].classroomTypeReq;
+					cTemp.courseName = courses[i].courseName;
+					cTemp.credits = courses[i].credits;
+
+					pTemp.qualifiedToTeachCourses.push_back(cTemp);
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+				cout << "Course: " << cTemp.courseSubjectCode << "-" << cTemp.courseNumID << " Not found!\n";
+			else
+				found = false;
+			getline(iStream, input, ',');
+		}
+
+		instructors.push_back(pTemp);
+
+		pTemp = *new Professor;
+
+		if (input.substr(4, input.size() - 4) == "")
+			break;
+
+		pTemp.firstName = input.substr(4, input.size() - 4);
+	}
+}
+
+void Manager::LoadClassrooms(istream& iStream)
+{
+	Classroom rTemp;
+	string input;
+
+	getline(iStream, input, ',');
+	rTemp.buildingName = rTemp.StringToBuildingName(input);
+
+	while (iStream)
+	{
+		getline(iStream, rTemp.roomNumber, ',');
+
+		getline(iStream, input, ',');
+		rTemp.StringToRoomType(input);
+
+		getline(iStream, input, '\n');
+		rTemp.maxRoomCapacity = stoi(input);
+
+		classrooms.push_back(rTemp);
+
+		getline(iStream, input, ',');
+		rTemp.buildingName = rTemp.StringToBuildingName(input);
 	}
 }
