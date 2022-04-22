@@ -56,6 +56,8 @@ void Manager::AddClassMeeting()
 
 	CollectClassMeetingStartingEndingInfo(temp);
 
+	// AssignClassroom...
+
 	AssignInstructor(temp);
 
 	classMeetings.push_back(temp);
