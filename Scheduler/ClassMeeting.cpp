@@ -5,7 +5,6 @@ ClassMeeting::ClassMeeting()
 	course = Course();
 	sectionID = "XXXX";
 	maxCourseSeats = 0;
-	weekdayMeet.push_back(DaysOfWeek::Sunday);
 	startTime = Time{ 0, 0 };
 	endTime = Time{ 0, 0 };;
 	startDate = Date();
@@ -15,7 +14,7 @@ ClassMeeting::ClassMeeting()
 
 ClassMeeting::ClassMeeting(Course course_, string sectionID_, unsigned short int maxCourseSeats_, 
 							vector<DaysOfWeek> weekdayMeet_, Time startTime_, Time endTime_, Date startDate_, 
-							Date endDate_, Professor instructor)
+							Date endDate_, Classroom room, Professor instructor)
 {
 	course = course_;						
 	sectionID = sectionID;
@@ -26,4 +25,5 @@ ClassMeeting::ClassMeeting(Course course_, string sectionID_, unsigned short int
 	startDate = startDate;
 	endDate = endDate;
 	assignedInstructor = instructor;
+	assignedRoom = room;
 }

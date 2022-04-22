@@ -21,7 +21,8 @@ public:
 		Time startTime_,
 		Time endTime_,
 		Date startDate_,
-		Date endDate_, 
+		Date endDate_,
+		Classroom room,
 		Professor instructor);
 
 	Course course;
@@ -33,6 +34,7 @@ public:
 	Date startDate;
 	Date endDate;
 	Professor assignedInstructor;
+	Classroom assignedRoom;
 };
 
 #endif // !COURSE_H

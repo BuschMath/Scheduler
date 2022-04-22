@@ -37,7 +37,6 @@ void Manager::AddCourse()
 void Manager::AddClassroom()
 {
 	Classroom temp;
-	int input;
 
 	temp.buildingName = SelectBuilding(temp);
 
@@ -56,7 +55,7 @@ void Manager::AddClassMeeting()
 
 	CollectClassMeetingStartingEndingInfo(temp);
 
-	// AssignClassroom...
+	AssignClassroom(temp);
 
 	AssignInstructor(temp);
 
@@ -135,7 +134,7 @@ void Manager::OutputClassMeeting(ostream& oStream, string dlimit)
 		
 		for (int j = 0; j < classMeetings[i].weekdayMeet.size(); j++)
 		{
-			oStream << classMeetings[i].startDate.DayToString(classMeetings[i].weekdayMeet[j]);
+			oStream << classMeetings[i].startDate.DayToString(classMeetings[i].weekdayMeet[j]).substr(0,2) << "-";
 		}
 		oStream << dlimit;
 
@@ -149,6 +148,8 @@ void Manager::OutputClassMeeting(ostream& oStream, string dlimit)
 		oStream << classMeetings[i].endDate.day << dlimit;
 		oStream << classMeetings[i].endDate.MonthToString(classMeetings[i].endDate.month) << dlimit;
 		oStream << classMeetings[i].endDate.year << dlimit;
+		oStream << classMeetings[i].assignedRoom.BuildingNameToString(classMeetings[i].assignedRoom.buildingName) << dlimit;
+		oStream << classMeetings[i].assignedRoom.roomNumber << dlimit;
 		oStream << classMeetings[i].assignedInstructor.firstName << dlimit;
 		oStream << classMeetings[i].assignedInstructor.LastName << endl;
 	}
@@ -358,7 +359,7 @@ Course Manager::FindCourseBySubjectCodeNumber()
 	cout << "\nWhat is the course number ID?: ";
 	cin >> courseNumID;
 
-	FindCourseBySubjectCodeNumber(subjectCode, courseNumID);
+	return FindCourseBySubjectCodeNumber(subjectCode, courseNumID);
 }
 
 Course Manager::FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID)
@@ -507,6 +508,27 @@ void Manager::AssignInstructor(ClassMeeting& temp)
 		}
 	}
 	cout << "\nInstructor not found, assign instructor failed.";
+}
+
+void Manager::AssignClassroom(ClassMeeting& temp)
+{
+	Classroom room;
+	SelectBuilding(room);
+
+	cout << "\nWhat is the room number?: ";
+	cin >> room.roomNumber;
+
+	cout << "\nSearching for room...";
+	for (int i = 0; i < classrooms.size(); i++)
+	{
+		if (classrooms[i].buildingName == room.buildingName && classrooms[i].roomNumber == room.roomNumber)
+		{
+			cout << "\nRoom found. Adding room.";
+			temp.assignedRoom = classrooms[i];
+			return;
+		}
+	}
+	cout << "\nRoom not found, failed to add classroom.";
 }
 
 void Manager::LoadCourses(istream& iStream)

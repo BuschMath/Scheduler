@@ -57,6 +57,7 @@ private:
 	void CollectClassMeetingStartEndTime(ClassMeeting& temp);
 	void SelectClassMeetingDaysOfWeek(ClassMeeting& temp);
 	void AssignInstructor(ClassMeeting& temp);
+	void AssignClassroom(ClassMeeting& temp);
 	void LoadCourses(istream& iStream);
 	void LoadProfessors(istream& iStream);
 	void LoadClassrooms(istream& iStream);
