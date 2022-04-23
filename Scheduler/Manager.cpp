@@ -378,6 +378,17 @@ Course Manager::FindCourseBySubjectCodeNumber(string subjectCode, string courseN
 	return Course();
 }
 
+Classroom Manager::FindClassroom(BuildingName bName, string roomNumber)
+{
+	for (int i = 0; i < classrooms.size(); i++)
+	{
+		if (classrooms[i].buildingName == bName && classrooms[i].roomNumber == roomNumber)
+			return classrooms[i];
+	}
+
+	return Classroom();
+}
+
 void Manager::CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp)
 {
 	string input;
@@ -519,16 +530,12 @@ void Manager::AssignClassroom(ClassMeeting& temp)
 	cin >> room.roomNumber;
 
 	cout << "\nSearching for room...";
-	for (int i = 0; i < classrooms.size(); i++)
-	{
-		if (classrooms[i].buildingName == room.buildingName && classrooms[i].roomNumber == room.roomNumber)
-		{
-			cout << "\nRoom found. Adding room.";
-			temp.assignedRoom = classrooms[i];
-			return;
-		}
-	}
-	cout << "\nRoom not found, failed to add classroom.";
+	temp.assignedRoom = FindClassroom(room.buildingName, room.roomNumber);
+
+	if (room.maxRoomCapacity != 0)
+		cout << "\nRoom found. Adding room.";
+	else
+		cout << "\nRoom not found, failed to add classroom.";
 }
 
 void Manager::LoadCourses(istream& iStream)
@@ -652,6 +659,43 @@ void Manager::LoadClassMeetings(istream& iStream)
 		getline(iStream, input, ',');
 		temp.maxCourseSeats = stoi(input);
 
-		// more code
+		getline(iStream, input, '-');
+		while (iStream.peek() != ',')
+		{
+			temp.weekdayMeet.push_back(temp.startDate.StringSubToDay(input));
+			getline(iStream, input, '-');
+		}
+		temp.weekdayMeet.push_back(temp.startDate.StringSubToDay(input));
+
+		getline(iStream, input, ',');
+		temp.startTime.hour = stoi(input);
+		getline(iStream, input, ',');
+		temp.startTime.min = stoi(input);
+
+		getline(iStream, input, ',');
+		temp.endTime.hour = stoi(input);
+		getline(iStream, input, ',');
+		temp.endTime.min = stoi(input);
+
+		getline(iStream, input, ',');
+		temp.startDate.day = stoi(input);
+		getline(iStream, input, ',');
+		temp.startDate.month = temp.startDate.StringToMonth(input);
+		getline(iStream, input, ',');
+		temp.startDate.year = stoi(input);
+
+		getline(iStream, input, ',');
+		temp.endDate.day = stoi(input);
+		getline(iStream, input, ',');
+		temp.endDate.month = temp.startDate.StringToMonth(input);
+		getline(iStream, input, ',');
+		temp.endDate.year = stoi(input);
+
+		string roomNumber;
+		getline(iStream, input, ',');
+		getline(iStream, roomNumber, ',');
+		temp.assignedRoom = FindClassroom(temp.assignedRoom.StringToBuildingName(input), roomNumber);
+
+		//Input and find instructor
 	}
 }

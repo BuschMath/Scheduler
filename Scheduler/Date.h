@@ -50,6 +50,8 @@ public:
 	bool isOlder(Date date);
 	string MonthToString(Month input);
 	string DayToString(DaysOfWeek input);
+	Month StringToMonth(string input);
+	DaysOfWeek StringSubToDay(string input);
 
 	unsigned short int day;
 	Month month;

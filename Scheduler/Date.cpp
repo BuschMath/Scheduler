@@ -86,3 +86,53 @@ string Date::DayToString(DaysOfWeek input)
 	}
 	return string();
 }
+
+Month Date::StringToMonth(string input)
+{
+	if (input == "January")
+		return Month::January;
+	else if (input == "February")
+		return Month::February;
+	else if (input == "March")
+		return Month::March;
+	else if (input == "April")
+		return Month::April;
+	else if (input == "May")
+		return Month::May;
+	else if (input == "June")
+		return Month::June;
+	else if (input == "July")
+		return Month::July;
+	else if (input == "August")
+		return Month::August;
+	else if (input == "September")
+		return Month::September;
+	else if (input == "October")
+		return Month::October;
+	else if (input == "November")
+		return Month::November;
+	else if (input == "December")
+		return Month::December;
+
+	return Month();
+}
+
+DaysOfWeek Date::StringSubToDay(string input)
+{
+	if (input == "Su")
+		return DaysOfWeek::Sunday;
+	else if (input == "Mo")
+		return DaysOfWeek::Monday;
+	else if (input == "Tu")
+		return DaysOfWeek::Tuesday;
+	else if (input == "We")
+		return DaysOfWeek::Wednesday;
+	else if (input == "Th")
+		return DaysOfWeek::Thursday;
+	else if (input == "Fr")
+		return DaysOfWeek::Friday;
+	else if (input == "Sa")
+		return DaysOfWeek::Saturday;
+
+	return DaysOfWeek();
+}
