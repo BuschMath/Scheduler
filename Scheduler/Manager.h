@@ -31,11 +31,6 @@ public:
 	void DisplayClassrooms();
 	void DisplayClassMeetings();
 	
-	void OutputProfessors(ostream& oStream, string dlimit, string ending);
-	void OutputCourses(ostream& oStream, string dlimit);
-	void OutputClassrooms(ostream& oStream, string dlimit);
-	void OutputClassMeeting(ostream& oStream, string dlimit);
-	
 	void Save();
 	void Load();
 
@@ -64,6 +59,11 @@ private:
 	void LoadProfessors(istream& iStream);
 	void LoadClassrooms(istream& iStream);
 	void LoadClassMeetings(istream& iStream);
+
+	void OutputProfessors(ostream& oStream, string dlimit, string ending);
+	void OutputCourses(ostream& oStream, string dlimit);
+	void OutputClassrooms(ostream& oStream, string dlimit);
+	void OutputClassMeeting(ostream& oStream, string dlimit);
 
 	vector<Professor> instructors;
 	vector<Course> courses;

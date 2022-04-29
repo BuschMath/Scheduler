@@ -15,7 +15,6 @@ Manager::~Manager()
 void Manager::AddProfessor()
 {
 	Professor temp;
-	bool exit = false;
 
 	CollectProfessorID(temp);
 
@@ -367,7 +366,6 @@ Course Manager::FindCourseBySubjectCodeNumber(string subjectCode, string courseN
 	{
 		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
 		{
-			cout << "\nCourse found and added.\n";
 			return courses[i];
 		}
 	}
