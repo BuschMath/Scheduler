@@ -21,13 +21,9 @@ public:
 	Manager();
 	~Manager();
 
-	void AddProfessor();
-	void AddCourse();
 	void AddClassroom();
 	void AddClassMeeting();
 	
-	void DisplayProfessors();
-	void DisplayCourses();
 	void DisplayClassrooms();
 	void DisplayClassMeetings();
 	
@@ -35,12 +31,6 @@ public:
 	void Load();
 
 private:
-	void QualBySubject(Professor& temp);
-	void QualByCourse(Professor& temp);
-	void CollectProfessorID(Professor& temp);
-	bool CollectProfessorQual(Professor& temp);
-	void CollectCourseID(Course& temp);
-	RoomType CollectReqClassroomType();
 	BuildingName SelectBuilding(Classroom temp);
 	void CollectRoomProperties(Classroom& temp);
 	Course FindCourseBySubjectCodeNumber();
@@ -60,13 +50,9 @@ private:
 	void LoadClassrooms(istream& iStream);
 	void LoadClassMeetings(istream& iStream);
 
-	void OutputProfessors(ostream& oStream, string dlimit, string ending);
-	void OutputCourses(ostream& oStream, string dlimit);
 	void OutputClassrooms(ostream& oStream, string dlimit);
 	void OutputClassMeeting(ostream& oStream, string dlimit);
 
-	vector<Professor> instructors;
-	vector<Course> courses;
 	vector<Classroom> classrooms;
 	vector<ClassMeeting> classMeetings;
 };
