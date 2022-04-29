@@ -51,6 +51,7 @@ private:
 	Course FindCourseBySubjectCodeNumber();
 	Course FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID);
 	Classroom FindClassroom(BuildingName bName, string roomNumber);
+	Professor FindProfessor(string fName, string lName);
 	void CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp);
 	void CollectClassMeetingStartingEndingInfo(ClassMeeting& temp);
 	Date CollectClassMeetingStartDayMonthYear();

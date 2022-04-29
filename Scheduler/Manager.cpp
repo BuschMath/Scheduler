@@ -193,10 +193,9 @@ void Manager::Load()
 	LoadClassrooms(infile);
 	infile.close();
 
-	// Currently broken :(
-	/*infile.open(ClassMeetingSaveFileName);
+	infile.open(ClassMeetingSaveFileName);
 	LoadClassMeetings(infile);
-	infile.close();*/
+	infile.close();
 }
 
 void Manager::QualBySubject(Professor& temp)
@@ -387,6 +386,16 @@ Classroom Manager::FindClassroom(BuildingName bName, string roomNumber)
 	}
 
 	return Classroom();
+}
+
+Professor Manager::FindProfessor(string fName, string lName)
+{
+	for (int i = 0; i < instructors.size(); i++)
+	{
+		if (fName == instructors[i].firstName && lName == instructors[i].LastName)
+			return instructors[i];
+	}
+	return Professor();
 }
 
 void Manager::CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp)
@@ -648,9 +657,10 @@ void Manager::LoadClassMeetings(istream& iStream)
 	string courseIDNum;
 	string input;
 
+	getline(iStream, subjectCode, ',');
+
 	while (iStream)
 	{	
-		getline(iStream, subjectCode, ',');
 		getline(iStream, courseIDNum, ',');
 		temp.course = FindCourseBySubjectCodeNumber(subjectCode, courseIDNum);
 
@@ -667,6 +677,7 @@ void Manager::LoadClassMeetings(istream& iStream)
 		}
 		temp.weekdayMeet.push_back(temp.startDate.StringSubToDay(input));
 
+		iStream.ignore(1);
 		getline(iStream, input, ',');
 		temp.startTime.hour = stoi(input);
 		getline(iStream, input, ',');
@@ -696,6 +707,13 @@ void Manager::LoadClassMeetings(istream& iStream)
 		getline(iStream, roomNumber, ',');
 		temp.assignedRoom = FindClassroom(temp.assignedRoom.StringToBuildingName(input), roomNumber);
 
-		//Input and find instructor
+		string fName;
+		string lName;
+		getline(iStream, fName, ',');
+		getline(iStream, lName);
+		temp.assignedInstructor = FindProfessor(fName, lName);
+		
+		classMeetings.push_back(temp);
+		getline(iStream, subjectCode, ',');
 	}
 }
