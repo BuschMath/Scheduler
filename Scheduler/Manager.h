@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Professor.h"
+#include "Department.h"
 #include "ClassMeeting.h"
 
 const string ProfessorSaveFileName = "instructors.dat";
@@ -55,6 +55,7 @@ private:
 
 	vector<Classroom> classrooms;
 	vector<ClassMeeting> classMeetings;
+	vector<Department> departments;
 };
 
 #endif // !MANAGER_H

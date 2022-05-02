@@ -99,11 +99,13 @@ void Manager::Save()
 	string dlimit = ",";
 	string ending = "end\n";
 	outfile.open(ProfessorSaveFileName);
-	OutputProfessors(outfile, dlimit, ending);
+	for (int i = 0; i < departments.size(); i++)
+		departments[i].OutputProfessors(outfile, dlimit, ending);
 	outfile.close();
 
 	outfile.open(CoursesSaveFileName);
-	OutputCourses(outfile, dlimit);
+	for (int i = 0; i < departments.size(); i++)
+		departments[i].OutputCourses(outfile, dlimit);
 	outfile.close();
 
 	outfile.open(ClassroomSaveFileName);

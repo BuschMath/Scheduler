@@ -14,10 +14,10 @@ public:
 	void AddCourse();
 	void DisplayProfessors();
 	void DisplayCourses();
-
-private:
 	void OutputProfessors(ostream& oStream, string dlimit, string ending);
 	void OutputCourses(ostream& oStream, string dlimit);
+
+private:
 	void CollectProfessorID(Professor& temp);
 	bool CollectProfessorQual(Professor& temp);
 	void CollectCourseID(Course& temp);
@@ -27,6 +27,8 @@ private:
 
 	vector<Professor> instructors;
 	vector<Course> courses;
+	string deptName;
+	int deptID;
 };
 
 #endif // !DEPARTMENT_H
