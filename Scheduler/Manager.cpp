@@ -176,6 +176,7 @@ Course Manager::FindCourseBySubjectCodeNumber()
 {
 	string subjectCode;
 	string courseNumID;
+	string deptName;
 
 	cout << "What is the subject code of the course?: ";
 	cin >> subjectCode;
@@ -183,22 +184,10 @@ Course Manager::FindCourseBySubjectCodeNumber()
 	cout << "\nWhat is the course number ID?: ";
 	cin >> courseNumID;
 
-	return FindCourseBySubjectCodeNumber(subjectCode, courseNumID);
-}
+	cout << "\nWhat deptartment?: ";
+	cin >> deptName;
 
-Course Manager::FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID)
-{
-	for (int i = 0; i < courses.size(); i++)
-	{
-		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
-		{
-			return courses[i];
-		}
-	}
-
-	cout << "\nCourse not found.";
-
-	return Course();
+	return FindDepartment(deptName).FindCourseBySubjectCodeNumber(subjectCode, courseNumID);
 }
 
 Classroom Manager::FindClassroom(BuildingName bName, string roomNumber)
@@ -212,14 +201,33 @@ Classroom Manager::FindClassroom(BuildingName bName, string roomNumber)
 	return Classroom();
 }
 
-Professor Manager::FindProfessor(string fName, string lName)
+Professor Manager::FindProfessor()
 {
-	for (int i = 0; i < instructors.size(); i++)
+	string lName;
+	string fName;
+	string deptName;
+
+	cout << "\nWhat is the first name?: ";
+	cin >> fName;
+
+	cout << "\nWhat is the last name?: ";
+	cin >> lName;
+
+	cout << "\nWhat is the department name?: ";
+	cin >> deptName;
+
+	return FindDepartment(deptName).FindProfessor(fName, lName);
+}
+
+Department Manager::FindDepartment(string deptName)
+{
+	for (int i = 0; i < departments.size(); i++)
 	{
-		if (fName == instructors[i].firstName && lName == instructors[i].LastName)
-			return instructors[i];
+		if (departments[i].deptName == deptName)
+			return departments[i];
 	}
-	return Professor();
+
+	return Department();
 }
 
 void Manager::CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp)
@@ -324,34 +332,19 @@ void Manager::SelectClassMeetingDaysOfWeek(ClassMeeting& temp)
 
 void Manager::AssignInstructor(ClassMeeting& temp)
 {
-	string firstName;
-	string lastName;
-	cout << "\nWhat is the first name of the instructor: ";
-	cin >> firstName;
-	cout << "\nWhat is the last name of the instructor: ";
-	cin >> lastName;
+	Professor tempProf = FindProfessor();
 
-	cout << "\nSearching...";
-	for (int i = 0; i < instructors.size(); i++)
+	for (int j = 0; j < tempProf.qualifiedToTeachCourses.size(); j++)
 	{
-		if (instructors[i].firstName == firstName && instructors[i].LastName == lastName)
+		if (tempProf.qualifiedToTeachCourses[j].courseName == temp.course.courseName)
 		{
-			cout << "\nInstructor found, checking qualifications.";
+			cout << "\nQualification found, adding instructor.";
 
-			for (int j = 0; j < instructors[i].qualifiedToTeachCourses.size(); j++)
-			{
-				if (instructors[i].qualifiedToTeachCourses[j].courseName == temp.course.courseName)
-				{
-					cout << "\nQualification found, adding instructor.";
-
-					temp.assignedInstructor = instructors[i];
-					return;
-				}
-			}
-			cout << "\nQualification not found, assign instructor failed.";
+			temp.assignedInstructor = tempProf;
+			return;
 		}
 	}
-	cout << "\nInstructor not found, assign instructor failed.";
+	cout << "\nQualification not found, assign instructor failed.";
 }
 
 void Manager::AssignClassroom(ClassMeeting& temp)

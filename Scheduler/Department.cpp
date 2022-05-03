@@ -175,3 +175,28 @@ void Department::QualByCourse(Professor& temp)
 	if (!found)
 		cout << "No qualified courses found. Qualification not added.\n";
 }
+
+Course Department::FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID)
+{
+	for (int i = 0; i < courses.size(); i++)
+	{
+		if (courses[i].courseSubjectCode == subjectCode && courses[i].courseNumID == courseNumID)
+		{
+			return courses[i];
+		}
+	}
+
+	cout << "\nCourse not found.";
+
+	return Course();
+}
+
+Professor Department::FindProfessor(string fName, string lName)
+{
+	for (int i = 0; i < instructors.size(); i++)
+	{
+		if (fName == instructors[i].firstName && lName == instructors[i].LastName)
+			return instructors[i];
+	}
+	return Professor();
+}

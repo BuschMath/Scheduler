@@ -16,6 +16,11 @@ public:
 	void DisplayCourses();
 	void OutputProfessors(ostream& oStream, string dlimit, string ending);
 	void OutputCourses(ostream& oStream, string dlimit);
+	Course FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID);
+	Professor FindProfessor(string fName, string lName);
+
+	string deptName;
+	int deptID;
 
 private:
 	void CollectProfessorID(Professor& temp);
@@ -27,8 +32,6 @@ private:
 
 	vector<Professor> instructors;
 	vector<Course> courses;
-	string deptName;
-	int deptID;
 };
 
 #endif // !DEPARTMENT_H

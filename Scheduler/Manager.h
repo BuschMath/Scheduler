@@ -34,9 +34,9 @@ private:
 	BuildingName SelectBuilding(Classroom temp);
 	void CollectRoomProperties(Classroom& temp);
 	Course FindCourseBySubjectCodeNumber();
-	Course FindCourseBySubjectCodeNumber(string subjectCode, string courseNumID);
 	Classroom FindClassroom(BuildingName bName, string roomNumber);
-	Professor FindProfessor(string fName, string lName);
+	Professor FindProfessor();
+	Department FindDepartment(string deptName);
 	void CollectClassMeetingSectionIDMaxSeats(ClassMeeting& temp);
 	void CollectClassMeetingStartingEndingInfo(ClassMeeting& temp);
 	Date CollectClassMeetingStartDayMonthYear();
